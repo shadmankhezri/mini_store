@@ -1,0 +1,11 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+
+access_mini_store_customer,access.mini_store.customer,model_mini_store_customer,base.group_user,1,1,1,1
+access_mini_store_product,access.mini_store.product,model_mini_store_product,base.group_user,1,1,1,1
+access_mini_store_category,access.mini_store.category,model_mini_store_category,base.group_user,1,1,1,1
+access_mini_store_sale_order,access.mini_store.sale_order,model_mini_store_sale_order,base.group_user,1,1,1,1
+
+access_mini_store_invoice,access.mini_store.invoice,model_mini_store_invoice,base.group_user,1,1,1,1
+access_mini_store_sale_order_line,access_mini_store_sale_order_line,model_mini_store_sale_order_line,,1,1,1,1
+
+access_mini_store_product_image,access.mini.store.product.image,model_mini_store_product_image,,1,1,1,1

@@ -1,0 +1,15 @@
+.o_form_view .image-grid tbody {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.o_form_view .image-grid tbody tr {
+    display: inline-block;
+    margin: 0;
+}
+
+.o_form_view .image-grid td {
+    border: none !important;
+    padding: 0 !important;
+}

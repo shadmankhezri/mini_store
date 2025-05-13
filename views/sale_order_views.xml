@@ -1,0 +1,80 @@
+
+<odoo>
+    <!-- Sale Order Tree View -->
+    <record id="view_sale_order_tree" model="ir.ui.view">
+        <field name="name">sale.order.tree</field>
+        <field name="model">mini_store.sale_order</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="order_date"/>
+                <field name="customer_id" string="Customer"/>
+                <field name="total_price"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Sale Order Form View -->
+    <record id="view_sale_order_form" model="ir.ui.view">
+        <field name="name">sale.order.form</field>
+        <field name="model">mini_store.sale_order</field>
+        <field name="arch" type="xml">
+            <form string="Sale Order">
+
+                <header>
+                    <button name="action_pay_order"
+                            type="object"
+                            string="Pay &amp; Confirm Order"
+                            class="btn-primary"/>
+                    <button name="action_fake_payment"
+                            type="object"
+                            string="پرداخت تستی"
+                            class="btn-success"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirmed"/>
+                </header>
+
+                <sheet>
+                    <group>
+                        <field name="order_date"/>
+                        <field name="customer_id" string="Customer"/>
+                    </group>
+
+                    <notebook>
+                        <page string="Order Lines">
+                            <field name="order_line_ids">
+                                <tree editable="bottom">
+                                    <field name="product_id"/>
+                                    <field name="quantity"/>
+                                    <field name="price_unit"/>
+                                    <field name="total_price" readonly="1"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Summary">
+                            <group>
+                                <field name="total_price" readonly="1"/>
+                                <field name="state"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_sale_order" model="ir.actions.act_window">
+        <field name="name">Sale Orders</field>
+        <field name="res_model">mini_store.sale_order</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Menu -->
+    <menuitem id="menu_sale_order"
+              name="Sale Orders"
+              parent="menu_mini_store_root"
+              action="action_sale_order"
+              sequence="20"/>
+</odoo>
+
+

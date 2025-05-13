@@ -1,0 +1,79 @@
+
+<odoo>
+                    <!-- form views -->
+    <record id="view_mini_store_customer_form" model="ir.ui.view">
+        <field name="name">mini_store.customer.form</field>
+        <field name="model">mini_store.customer</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group string="Customer Information">
+                        <field name="partner_id" invisible="1"/>
+                        <field name="name" string="Customer Name"/>
+                        <field name="national_id"/>
+                        <field name="email"/>
+                        <field name="phone"/>
+                        <field name="street" string="Address"/>
+                        <field name="date_joined"/>
+                        <field name="total_spent" readonly="1"/>
+                    </group>
+
+
+                    <notebook>
+                        <page string="Sale Orders history">
+                            <field name="sale_order_ids">
+                                <tree editable="bottom">
+                                    <field name="order_date"/>
+                                    <field name="product_id"/>
+                                    <field name="quantity"/>
+                                    <field name="total_price"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+                <!-- tree views -->
+    <record id="view_mini_store_customer_tree" model="ir.ui.view">
+        <field name="name">mini_store.customer.tree</field>
+        <field name="model">mini_store.customer</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name" string="Customer Name"/>
+                <field name="national_id"/>
+                <field name="email"/>
+                <field name="phone"/>
+                <field name="date_joined"/>
+                <field name="total_spent"/>
+            </tree>
+        </field>
+    </record>
+
+
+
+
+                    <!--action -->
+
+    <record id="action_mini_store_customer" model="ir.actions.act_window">
+        <field name="name">Customers</field>
+        <field name="res_model">mini_store.customer</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+
+                <!-- main menu -->
+    <menuitem id="menu_mini_store_customer" name="Customers" action="action_mini_store_customer" parent="menu_mini_store_root"/>
+
+
+</odoo>
+
+
+
+
+
+
+

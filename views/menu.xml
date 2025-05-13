@@ -1,0 +1,4 @@
+<odoo>
+    <!-- menu root for Mini Store -->
+    <menuitem id="menu_mini_store_root" name="Mini Store" sequence="1"/>
+</odoo>

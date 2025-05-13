@@ -1,0 +1,12 @@
+<odoo>
+    <template id="payment_success" name="Payment Success">
+        <t t-call="website.layout">
+            <div class="container my-5">
+                <h1 class="text-success">پرداخت با موفقیت انجام شد!</h1>
+                <p>سفارش شما با موفقیت ثبت شد.</p>
+                <p><strong>شماره سفارش:</strong> <t t-esc="order.id"/></p>
+                <a href="/" class="btn btn-primary mt-3">بازگشت به صفحه اصلی</a>
+            </div>
+        </t>
+    </template>
+</odoo>

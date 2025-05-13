@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <!-- Form View -->
+    <record id="view_mini_store_category_form" model="ir.ui.view">
+        <field name="name">mini_store.category.form</field>
+        <field name="model">mini_store.category</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group string="Category Info">
+                        <field name="cat_name"/>
+                        <field name="description"/>
+                        <field name="product_ids" widget="one2many_list"/>
+                        <field name="image" widget="image"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+
+    <!-- Tree View -->
+    <record id="view_mini_store_category_tree" model="ir.ui.view">
+        <field name="name">mini_store.category.tree</field>
+        <field name="model">mini_store.category</field>
+        <field name="arch" type="xml">
+            <tree string="Categories">
+                <field name="cat_name"/>
+                <field name="description"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- kanban for category -->
+    <record id="mini_store_category_kanban_view" model="ir.ui.view">
+        <field name="name">mini_store.category.kanban</field>
+        <field name="model">mini_store.category</field>
+        <field name="arch" type="xml">
+
+            <kanban string="Category">
+                <field name="cat_name"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click">
+                            <div class="o_kanban_image">
+                                <img t-att-src="kanban_image('mini_store.category', 'image', record.id.value)" class="oe_kanban_image" alt="Image"/>
+                            </div>
+
+                            <div><field name="cat_name"/></div>
+                        </div>
+                    </t>
+                </templates>
+
+            </kanban>
+        </field>
+    </record>
+
+
+
+
+    <!-- Action -->
+    <record id="action_mini_store_category" model="ir.actions.act_window">
+        <field name="name">Categories</field>
+        <field name="res_model">mini_store.category</field>
+        <field name="view_mode">kanban,tree,form</field>
+    </record>
+
+    <!-- Menu -->
+    <menuitem id="menu_mini_store_category"
+              name="Categories"
+              parent="menu_mini_store_root"
+              action="action_mini_store_category"
+              sequence="20"/>
+</odoo>
