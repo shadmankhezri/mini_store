@@ -21,6 +21,7 @@ class Customer(models.Model):
         ('unique_national_id', 'UNIQUE(national_id)', 'National ID must be unique.'),
     ]
 
+    image = fields.Image(string="Customer Photo", max_width=128, max_height=128)
 
 #-----------------------------
 

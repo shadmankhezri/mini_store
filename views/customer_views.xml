@@ -10,6 +10,7 @@
                     <group string="Customer Information">
                         <field name="partner_id" invisible="1"/>
                         <field name="name" string="Customer Name"/>
+                        <field name="image" widget="image" class="oe_avatar"/>
                         <field name="national_id"/>
                         <field name="email"/>
                         <field name="phone"/>
@@ -55,13 +56,42 @@
 
 
 
+    <record id="view_mini_store_customer_kanban" model="ir.ui.view">
+        <field name="name">mini_store.customer.kanban</field>
+        <field name="model">mini_store.customer</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_small_column">
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click o_kanban_card">
+                            <div class="o_kanban_image me-3 mt-3">
+                                <img t-att-src="kanban_image('mini_store.customer', 'image', record.id.value)" class="oe_avatar"/>
+                            </div>
+                            <div class="o_kanban_details">
+                                <strong><field name="name"/></strong><br/>
+                                <span t-if="record.email.raw_value">📧 <field name="email"/></span><br/>
+                                <span t-if="record.phone.raw_value">📞 <field name="phone"/></span><br/>
+                                <span t-if="record.total_spent.raw_value">💰 <field name="total_spent"/></span>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+
+
+
+
+
 
                     <!--action -->
 
     <record id="action_mini_store_customer" model="ir.actions.act_window">
         <field name="name">Customers</field>
         <field name="res_model">mini_store.customer</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">kanban,tree,form</field>
     </record>
 
 

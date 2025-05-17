@@ -12,6 +12,10 @@ class SaleOrder(models.Model):
     _name = 'mini_store.sale_order'
     _description = 'Sale Order'
 
+
+    name = fields.Char(string='Order Reference', required=True, copy=False, readonly=True, default='New')
+
+
     customer_id = fields.Many2one('mini_store.customer', string='Customer', required=True)
     product_id = fields.Many2one('product.product', string="Product")
 
@@ -36,9 +40,16 @@ class SaleOrder(models.Model):
 # ----------------------------
 
 
-    @api.model_create_multi
-    def create(self, vals_list):
-        return super(SaleOrder, self).create(vals_list)
+    # @api.model_create_multi
+    # def create(self, vals_list):
+    #     return super(SaleOrder, self).create(vals_list)
+
+
+    @api.model
+    def create(self, vals):
+        if vals.get('name', 'New') == 'New':
+            vals['name'] = self.env['ir.sequence'].next_by_code('mini_store.sale_order') or '/'
+        return super(SaleOrder, self).create(vals)
 
     
 

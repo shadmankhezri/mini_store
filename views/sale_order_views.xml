@@ -6,6 +6,7 @@
         <field name="model">mini_store.sale_order</field>
         <field name="arch" type="xml">
             <tree>
+                <field name="name"/>
                 <field name="order_date"/>
                 <field name="customer_id" string="Customer"/>
                 <field name="total_price"/>
@@ -28,7 +29,7 @@
                             class="btn-primary"/>
                     <button name="action_fake_payment"
                             type="object"
-                            string="پرداخت تستی"
+                            string="Test Payment"
                             class="btn-success"/>
                     <field name="state" widget="statusbar" statusbar_visible="draft,confirmed"/>
                 </header>
