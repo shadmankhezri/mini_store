@@ -24,10 +24,10 @@
                         <page string="Sale Orders history">
                             <field name="sale_order_ids">
                                 <tree editable="bottom">
+                                    <field name="name" 
+                                        string="Invoice Number" 
+                                        context="{'form_view_ref': 'your_module_name.view_mini_store_sale_order_form'}"/>
                                     <field name="order_date"/>
-                                    <field name="product_id"/>
-                                    <field name="quantity"/>
-                                    <field name="total_price"/>
                                 </tree>
                             </field>
                         </page>
@@ -92,10 +92,6 @@
             </search>
         </field>
     </record>
-
-
-
-
 
 
                     <!--action -->
