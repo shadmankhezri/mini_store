@@ -65,7 +65,7 @@
                     <t t-name="kanban-box">
                         <div class="oe_kanban_global_click o_kanban_card">
                             <div class="o_kanban_image me-3 mt-3">
-                                <img t-att-src="kanban_image('mini_store.customer', 'image', record.id.value)" class="oe_avatar"/>
+                                <img t-att-src="kanban_image('mini_store.customer', 'image', record.id.value)" class="oe_avatar" alt="Customer Image"/>
                             </div>
                             <div class="o_kanban_details">
                                 <strong><field name="name"/></strong><br/>
