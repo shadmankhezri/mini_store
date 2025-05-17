@@ -92,7 +92,11 @@
         <field name="search_view_id" ref="view_invoice_search"/>
     </record>
 
-  <menuitem id="menu_invoice" name="Invoices" parent="menu_mini_store_root" action="action_invoice"/>
+    <menuitem id="menu_invoice" 
+              name="Invoices" 
+              parent="menu_mini_store_root" 
+              action="action_invoice" 
+              sequence="50"/>
 
 
 </odoo>

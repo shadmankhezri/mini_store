@@ -86,10 +86,31 @@
         <field name="view_mode">kanban,tree,form</field>
     </record>
 
+
+
+
     <!-- Menu -->
+
+
+    <!-- Main Menu: Categories -->
     <menuitem id="menu_mini_store_category"
-              name="Categories"
+              name="Store"
               parent="menu_mini_store_root"
-              action="action_mini_store_category"
               sequence="20"/>
+
+    <!-- Submenu: All Categories -->
+    <menuitem id="menu_mini_store_category_submenu"
+              name="Categories"
+              parent="menu_mini_store_category"
+              action="action_mini_store_category"
+              sequence="1"/>
+
+    <!-- Submenu: Products -->
+    <menuitem id="menu_mini_store_product"
+              name="Products"
+              parent="menu_mini_store_category"
+              action="action_mini_store_product"
+              sequence="2"/>
+
+
 </odoo>

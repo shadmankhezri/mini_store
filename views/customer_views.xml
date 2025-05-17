@@ -96,7 +96,11 @@
 
 
                 <!-- main menu -->
-    <menuitem id="menu_mini_store_customer" name="Customers" action="action_mini_store_customer" parent="menu_mini_store_root"/>
+    <menuitem id="menu_mini_store_customer" 
+              name="Customers" 
+              action="action_mini_store_customer" 
+              parent="menu_mini_store_root" 
+              sequence="30"/>
 
 
 </odoo>

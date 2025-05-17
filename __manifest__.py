@@ -24,7 +24,6 @@
     'assets': {
     'web.assets_backend': [
         'mini_store/static/src/css/product_image.css',
-        'mini_store/static/src/css/styles.css',
     ],
 },
 

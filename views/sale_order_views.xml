@@ -75,7 +75,7 @@
               name="Sale Orders"
               parent="menu_mini_store_root"
               action="action_sale_order"
-              sequence="20"/>
+              sequence="40"/>
 </odoo>
 
 

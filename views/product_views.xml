@@ -154,15 +154,6 @@
     </record>
 
 
-
-    <!-- menu -->
-    <menuitem id="menu_mini_store_product"
-              name="Products"
-              parent="menu_mini_store_root"
-              action="action_mini_store_product"
-              sequence="10"/>
-
-              
 </odoo>
 
 
