@@ -40,11 +40,6 @@ class SaleOrder(models.Model):
 # ----------------------------
 
 
-    # @api.model_create_multi
-    # def create(self, vals_list):
-    #     return super(SaleOrder, self).create(vals_list)
-
-
     @api.model
     def create(self, vals):
         if vals.get('name', 'New') == 'New':

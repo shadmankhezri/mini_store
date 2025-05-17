@@ -13,6 +13,8 @@ class Customer(models.Model):
 
     date_joined = fields.Datetime(string='Date Joined', default=fields.Datetime.now)
     sale_order_ids = fields.One2many('mini_store.sale_order', 'customer_id', string='Sale Orders history')
+
+
     total_spent = fields.Float(string='Total Spent', compute='_compute_total_spent')
 
 
