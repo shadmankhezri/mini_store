@@ -6,6 +6,9 @@ access_mini_store_category,access.mini_store.category,model_mini_store_category,
 access_mini_store_sale_order,access.mini_store.sale_order,model_mini_store_sale_order,base.group_user,1,1,1,1
 
 access_mini_store_invoice,access.mini_store.invoice,model_mini_store_invoice,base.group_user,1,1,1,1
-access_mini_store_sale_order_line,access_mini_store_sale_order_line,model_mini_store_sale_order_line,,1,1,1,1
+
 
 access_mini_store_product_image,access.mini.store.product.image,model_mini_store_product_image,,1,1,1,1
+
+
+access_mini_store_cart,access.mini.store.cart,model_mini_store_cart,,1,1,1,1

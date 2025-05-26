@@ -2,11 +2,28 @@
     <template id="payment_success" name="Payment Success">
         <t t-call="website.layout">
             <div class="container my-5">
-                <h1 class="text-success">پرداخت با موفقیت انجام شد!</h1>
-                <p>سفارش شما با موفقیت ثبت شد.</p>
-                <p><strong>شماره سفارش:</strong> <t t-esc="order.id"/></p>
-                <a href="/" class="btn btn-primary mt-3">بازگشت به صفحه اصلی</a>
+                <h1 class="text-success">!</h1>
+                <p>Payment was successful!</p>
+                <p><strong>order number:</strong> <t t-out="order.name"/></p>
+                <p><strong>customer:</strong> <t t-out="order.customer_id.name"/></p>
+                <table class="table">
+                    <tr>
+                        <th>Products</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                    </tr>
+                    <t t-foreach="order.order_line_ids" t-as="line">
+                        <tr>
+                            <td><t t-out="line.product_id.name"/></td>
+                            <td><t t-out="line.quantity"/></td>
+                            <td><t t-out="line.total_price"/></td>
+                        </tr>
+                    </t>
+                </table>
+                <a href="/" class="btn btn-primary mt-3">Return to home page</a>
             </div>
         </t>
     </template>
 </odoo>
+
+

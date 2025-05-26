@@ -3,7 +3,7 @@
     'version': '17.0.1.0.0',
     'summary': 'Simple app to manage store',
     'author': 'shadman',
-    'depends': ['base','contacts', 'product'],
+    'depends': ['base','contacts', 'product', 'website'],
     'data': [
         
         'security/ir.model.access.csv',
@@ -16,6 +16,7 @@
         'views/invoice_views.xml',
         'views/web_templates/payment_success.xml',
         'views/web_templates/payment_failed.xml',
+        'views/web_templates/templates.xml',
         'data/ir_sequence_data.xml',
     ],
     'installable': True,

@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!-- Product List Template -->
+        <template id="product_list_template" name="Product List">
+            <t t-call="website.layout">
+                <div class="container my-5">
+                    <h1>Store Products</h1>
+                    <div class="row">
+                        <t t-foreach="products" t-as="product">
+                            <div class="col-md-4 mb-4">
+                                <div class="card">
+                                    <img t-att-src="'/web/image/mini_store.product/%s/image/300x300' % product.id" class="card-img-top" alt="Product Image"/>
+                                    <div class="card-body">
+                                        <h5 class="card-title"><t t-out="product.name"/></h5>
+                                        <p class="card-text">Price: <t t-out="product.product_price"/> Toman</p>
+                                        <p t-if="product.low_stock" class="text-danger">Low stock!</p>
+                                        <p>Stock: <t t-out="product.stock_quantity"/></p>
+                                        <a t-att-href="'/shop/product/%s' % product.id" class="btn btn-primary">View details</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </div>
+                </div>
+            </t>
+        </template>
+
+        <!-- Product Detail Template -->
+        <template id="product_detail_template" name="Product Detail">
+            <t t-call="website.layout">
+                <div class="container my-5">
+                    <h1><t t-out="product.name"/></h1>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <img t-att-src="'/web/image/mini_store.product/%s/image/500x500' % product.id" class="img-fluid" alt="Product Image"/>
+                            <div class="mt-3">
+                                <h5>Additional images:</h5>
+                                <t t-foreach="product.image_ids" t-as="img">
+                                    <img t-att-src="'/web/image/mini_store.product.image/%s/image/100x100' % img.id" class="img-thumbnail m-2" style="width: 100px;" alt="Additional Image"/>
+                                </t>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>Price:</strong> <t t-out="product.product_price"/> Toman</p>
+                            <p><strong>Category:</strong> <t t-out="product.category_id.cat_name"/></p>
+                            <p><strong>Description:</strong> <t t-out="product.description or 'No description'"/></p>
+                            <form action="/shop/add_to_cart" method="post">
+                                <input type="hidden" name="product_id" t-att-value="product.id"/>
+                                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                <div class="form-group">
+                                    <label>Quantity:</label>
+                                    <input type="number" name="quantity" value="1" min="1" class="form-control"/>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Add to Cart</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </template>
+
+        <!-- Order Form Template -->
+        <template id="order_form_template" name="Order Form">
+            <t t-call="website.layout">
+                <div class="container my-5">
+                    <h1>Order registration</h1>
+                    <form action="/shop/submit_order" method="post">
+                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                        <div class="form-group">
+                            <label>Customer:</label>
+                            <select name="customer_id" class="form-control">
+                                <t t-foreach="customers" t-as="customer">
+                                    <option t-att-value="customer.id"><t t-out="customer.name"/></option>
+                                </t>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Product:</label>
+                            <select name="product_id" class="form-control">
+                                <t t-foreach="products" t-as="product">
+                                    <option t-att-value="product.id"><t t-out="product.name"/> - <t t-out="product.product_price"/> Toman</option>
+                                </t>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Quantity:</label>
+                            <input type="number" name="quantity" value="1" min="1" class="form-control"/>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Order registration</button>
+                    </form>
+                </div>
+            </t>
+        </template>
+
+        <!-- Invoice Template -->
+        <template id="invoice_template" name="Invoice">
+            <t t-call="website.layout">
+                <div class="container my-5">
+                    <h1>Invoice Number: <t t-out="invoice.name"/></h1>
+                    <p><strong>Customer:</strong> <t t-out="invoice.customer_id.name"/></p>
+                    <p><strong>Date:</strong> <t t-out="invoice.order_date"/></p>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Quantity</th>
+                                <th>Unit price</th>
+                                <th>Total Price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="invoice.order_line_ids" t-as="line">
+                                <tr>
+                                    <td><t t-out="line.product_id.name"/></td>
+                                    <td><t t-out="line.quantity"/></td>
+                                    <td><t t-out="line.price_unit"/></td>
+                                    <td><t t-out="line.total_price"/></td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                    <p><strong>Total Price:</strong> <t t-out="invoice.total_price"/> Toman</p>
+                    <a href="/" class="btn btn-primary">Return to home page</a>
+                </div>
+            </t>
+        </template>
+
+        <!-- Cached Product List Template -->
+        <template id="product_list_cached" name="Cached Product List">
+            <t t-call="website.layout">
+                <t t-cache="cache_key">
+                    <div class="container my-5">
+                        <h1>Store Products</h1>
+                        <div class="row">
+                            <t t-foreach="products" t-as="product">
+                                <div class="col-md-4 mb-4">
+                                    <div class="card">
+                                        <img t-att-src="'/web/image/mini_store.product/%s/image/300x300' % product.id" class="card-img-top" alt="Product Image"/>
+                                        <div class="card-body">
+                                            <h5 class="card-title"><t t-out="product.name"/></h5>
+                                            <p class="card-text">Price: <t t-out="product.product_price"/> Toman</p>
+                                            <p t-if="product.low_stock" class="text-danger">Low Stock!</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </t>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </template>
+
+        <!-- Cart Template -->
+        <template id="cart_template" name="Cart">
+            <t t-call="website.layout">
+                <div class="container my-5">
+                    <h1>Shopping cart</h1>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Quantity</th>
+                                <th>Price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="cart_items" t-as="item">
+                                <tr>
+                                    <td><t t-out="item.product_id.name"/></td>
+                                    <td><t t-out="item.quantity"/></td>
+                                    <td><t t-out="item.total_price"/></td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                    <a href="/shop/checkout" class="btn btn-primary">Finalize the purchase</a>
+                </div>
+            </t>
+        </template>
+
+        <!-- Menu Items -->
+        <menuitem id="menu_shop" name="Store" parent="website.main_menu" sequence="10"/>
+        <menuitem id="menu_shop_products" name="Products" parent="menu_shop" sequence="1" action="website.action_website"/>
+        <menuitem id="menu_shop_cart" name="Shopping cart" parent="menu_shop" sequence="2" action="website.action_website"/>
+    </data>
+</odoo>
