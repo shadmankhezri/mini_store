@@ -48,15 +48,18 @@ class SaleOrder(models.Model):
 
     
 
-
     def action_pay_order(self):
         for order in self:
-            if order.total_price <= 0:
-                raise UserError("مبلغ سفارش معتبر نیست.")
+            for line in order.order_line_ids:
+                if line.product_id.stock_quantity < line.quantity:
+                    raise UserError(f"There is not enough inventory for product '{line.product_id.name}'")
+
 
             # payment info
             callback_url = f'/payment/verify/{order.id}'
             amount = int(order.total_price * 10)  
+
+
 
             # request
             data = {

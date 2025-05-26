@@ -1,6 +1,7 @@
 from odoo import http
 from odoo.http import request
 import requests
+from odoo.exceptions import UserError
 
 class PaymentController(http.Controller):
 
@@ -25,7 +26,11 @@ class PaymentController(http.Controller):
                 # موفقیت در پرداخت، تایید سفارش
                 order.action_confirm_order()
                 return request.render('mini_store.payment_success', {'order': order})
-            else:
-                return request.render('mini_store.payment_failed', {'error': 'پرداخت ناموفق بود.'})
+            
+            elif result['data']['code'] != 100:
+                error_message = result.get('errors', {}).get('message', 'Unknown error')
+                raise UserError(f"خطا در اتصال به درگاه پرداخت: {error_message}")
+
+
         else:
             return request.render('mini_store.payment_failed', {'error': 'کاربر پرداخت را لغو کرد.'})

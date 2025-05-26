@@ -1,5 +1,5 @@
 from odoo import models, fields, api
-
+from odoo.exceptions import ValidationError
 
 
 
@@ -25,3 +25,11 @@ class SaleOrderLine(models.Model):
     def _compute_total_price(self):
         for line in self:
             line.total_price = line.quantity * line.price_unit
+
+
+    @api.constrains('quantity')
+    def _check_quantity(self):
+        for line in self:
+            if line.quantity <= 0:
+                raise ValidationError("Quantity must be greater than zero.")
+        

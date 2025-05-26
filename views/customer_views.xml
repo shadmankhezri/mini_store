@@ -26,7 +26,7 @@
                                 <tree editable="bottom">
                                     <field name="name" 
                                         string="Invoice Number" 
-                                        context="{'form_view_ref': 'your_module_name.view_mini_store_sale_order_form'}"/>
+                                        context="{'form_view_ref': 'mini_store.view_sale_order_form'}"/>
                                     <field name="order_date"/>
                                 </tree>
                             </field>

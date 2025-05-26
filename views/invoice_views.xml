@@ -10,6 +10,7 @@
                 <field name="name" string="Invoice Number"/>
                 <field name="customer_id" string="Customer"/>
                 <field name="order_date" string="Order Date"/>
+                <field name="total_price" string="Total Price"/>
                 <field name="state" string="Status"/>
             </tree>
         </field>
@@ -58,7 +59,10 @@
                     <!-- Footer with Action Buttons -->
                     <footer>
                         <button string="Mark as Paid" type="object" name="action_mark_as_paid"  class="btn-primary" invisible="state != 'draft'"/>
-                        <button string="Paid" type="object" name="action_mark_as_paid" class="btn-secondary" invisible="state != 'paid'" disabled="1"/>
+                        <!-- <button string="Paid" type="object" name="action_mark_as_paid" class="btn-secondary" invisible="state != 'paid'" disabled="1"/> -->
+
+                        <button string="Paid" type="object" name="action_mark_as_paid" class="btn-secondary" invisible="state == 'paid'"/>
+
                     </footer>
                 </sheet>
             </form>
