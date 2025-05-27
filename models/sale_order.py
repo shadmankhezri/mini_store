@@ -8,7 +8,7 @@ class SaleOrder(models.Model):
 
     name = fields.Char(string='Order Reference', required=True, copy=False, readonly=True, default='New')
     customer_id = fields.Many2one('mini_store.customer', string='Customer', required=True)
-    # product_id حذف شده چون اضافی به نظر می‌رسه
+    product_id = fields.Many2one('mini_store.product', string="Product")
     order_date = fields.Datetime(string='Order Date', default=fields.Datetime.now)
     total_price = fields.Float(string='Total Price', compute='_compute_total_price', store=True)
     # quantity حذف شده چون اضافی به نظر می‌رسه
