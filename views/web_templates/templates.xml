@@ -13,7 +13,7 @@
                                     <img t-att-src="'/web/image/mini_store.product/%s/image/300x300' % product.id" class="card-img-top" alt="Product Image"/>
                                     <div class="card-body">
                                         <h5 class="card-title"><t t-out="product.name"/></h5>
-                                        <p class="card-text">Price: <t t-out="product.product_price"/> Toman</p>
+                                        <p class="card-text">Price: <t t-out="product.product_price"/> $</p>
                                         <p t-if="product.low_stock" class="text-danger">Low stock!</p>
                                         <p>Stock: <t t-out="product.stock_quantity"/></p>
                                         <a t-att-href="'/shop/product/%s' % product.id" class="btn btn-primary">View details</a>
@@ -42,7 +42,7 @@
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <p><strong>Price:</strong> <t t-out="product.product_price"/> Toman</p>
+                            <p><strong>Price:</strong> <t t-out="product.product_price"/> $</p>
                             <p><strong>Category:</strong> <t t-out="product.category_id.cat_name"/></p>
                             <p><strong>Description:</strong> <t t-out="product.description or 'No description'"/></p>
                             <form action="/shop/add_to_cart" method="post">
@@ -79,7 +79,7 @@
                             <label>Product:</label>
                             <select name="product_id" class="form-control">
                                 <t t-foreach="products" t-as="product">
-                                    <option t-att-value="product.id"><t t-out="product.name"/> - <t t-out="product.product_price"/> Toman</option>
+                                    <option t-att-value="product.id"><t t-out="product.name"/> - <t t-out="product.product_price"/> $</option>
                                 </t>
                             </select>
                         </div>
@@ -120,7 +120,7 @@
                             </t>
                         </tbody>
                     </table>
-                    <p><strong>Total Price:</strong> <t t-out="invoice.total_price"/> Toman</p>
+                    <p><strong>Total Price:</strong> <t t-out="invoice.total_price"/> $</p>
                     <a href="/" class="btn btn-primary">Return to home page</a>
                 </div>
             </t>
@@ -139,7 +139,7 @@
                                         <img t-att-src="'/web/image/mini_store.product/%s/image/300x300' % product.id" class="card-img-top" alt="Product Image"/>
                                         <div class="card-body">
                                             <h5 class="card-title"><t t-out="product.name"/></h5>
-                                            <p class="card-text">Price: <t t-out="product.product_price"/> Toman</p>
+                                            <p class="card-text">Price: <t t-out="product.product_price"/> $</p>
                                             <p t-if="product.low_stock" class="text-danger">Low Stock!</p>
                                         </div>
                                     </div>
