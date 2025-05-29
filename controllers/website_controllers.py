@@ -59,15 +59,15 @@ class ShopController(http.Controller):
         return request.render('mini_store.product_list_cached', {'products': products, 'cache_key': cache_key})
     
 #----------------------
-
+# controller for cart
     @http.route('/shop/cart', type='http', auth='public', website=True)
     def cart(self, **kwargs):
-        # فرض می‌کنیم سبد خرید به کاربر فعلی مرتبط است
         cart = request.env['mini_store.cart'].sudo().search([('customer_id', '=', request.env.user.partner_id.id)], limit=1)
         if not cart:
             cart = request.env['mini_store.cart'].sudo().create({'customer_id': request.env.user.partner_id.id})
         return request.render('mini_store.cart_template', {'cart_items': cart.cart_line_ids})
 
+# controller for add to cart
     @http.route('/shop/add_to_cart', type='http', auth='public', website=True, methods=['POST'])
     def add_to_cart(self, **post):
         product_id = int(post.get('product_id'))
