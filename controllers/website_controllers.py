@@ -5,6 +5,13 @@ from odoo.http import request
 class ShopController(http.Controller):
 
 #----------------------
+# Controller for category list
+    @http.route('/shop/categories', type='http', auth='public', website=True)
+    def category_list(self, **kwargs):
+        categories = request.env['mini_store.category'].search([])
+        return request.render('mini_store.category_list_template', {'categories': categories})
+
+#----------------------
 # controller for product list
     @http.route('/shop/products', type='http', auth='public', website=True)
     def product_list(self, **kwargs):
@@ -20,6 +27,20 @@ class ShopController(http.Controller):
             return request.render('mini_store.payment_failed', {'error': 'Product not found'})
         return request.render('mini_store.product_detail_template', {'product': product})
     
+#----------------------
+# Controller for category products
+    @http.route('/shop/category/<int:category_id>', type='http', auth='public', website=True)
+    def category_products(self, category_id, **kwargs):
+        category = request.env['mini_store.category'].browse(category_id)
+        if not category.exists():
+            return request.render('mini_store.payment_failed', {'error': 'Category not found'})
+        products = request.env['mini_store.product'].search([('category_id', '=', category_id)])
+        return request.render('mini_store.product_list_template', {
+            'products': products,
+            'category': category
+        })
+
+
 #----------------------
 # controller for submit_order
     @http.route('/shop/submit_order', type='http', auth='public', website=True, methods=['POST'])
@@ -73,15 +94,24 @@ class ShopController(http.Controller):
         product_id = int(post.get('product_id'))
         quantity = int(post.get('quantity', 1))
         cart = request.env['mini_store.cart'].sudo().search([('customer_id', '=', request.env.user.partner_id.id)], limit=1)
-        if not cart:
-            cart = request.env['mini_store.cart'].sudo().create({'customer_id': request.env.user.partner_id.id})
 
-        cart.write({
-            'cart_line_ids': [(0, 0, {
-                'product_id': product_id,
-                'quantity': quantity,
-            })]
-        })
+        if not cart:
+            cart = request.env['mini_store.cart'].sudo().create({
+                'customer_id': request.env.user.partner_id.id
+            })
+
+        cart_line = cart.cart_line_ids.filtered(lambda line: line.product_id.id == product_id)
+
+        if cart_line:
+            cart_line.quantity += quantity
+        else:
+            cart.write({
+                'cart_line_ids': [(0, 0, {
+                    'product_id': product_id,
+                    'quantity': quantity,
+                })]
+            })
+
         return request.redirect('/shop/cart')
     
 #----------------------

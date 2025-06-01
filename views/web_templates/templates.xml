@@ -1,16 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
     <data>
+
+
+        <!-- Category list template -->
+        <template id="category_list_template" name="Category List">
+            <t t-call="website.layout">
+                <div class="container my-5">
+                    <h1>Store Categories</h1>
+                    <div class="row">
+                        <t t-foreach="categories" t-as="category">
+                            <div class="col-md-4 mb-4">
+                                <div class="card">
+                                    <a t-att-href="'/shop/category/%s' % category.id">
+                                        <img t-att-src="'/web/image/mini_store.category/%s/image/300x300' % category.id" 
+                                             class="card-img-top" 
+                                             alt="Category Image"
+                                             t-att-alt="category.cat_name"/>
+                                    </a>
+                                    <div class="card-body">
+                                        <h5 class="card-title">
+                                            <a t-att-href="'/shop/category/%s' % category.id">
+                                                <t t-out="category.cat_name"/>
+                                            </a>
+                                        </h5>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </div>
+                </div>
+            </t>
+        </template>
+
+
         <!-- Product List Template -->
         <template id="product_list_template" name="Product List">
             <t t-call="website.layout">
                 <div class="container my-5">
-                    <h1>Store Products</h1>
+                    <h1>
+                        <t t-if="category">Products in <t t-out="category.cat_name"/></t>
+                        <t t-else="">Store Products</t>
+                    </h1>
                     <div class="row">
                         <t t-foreach="products" t-as="product">
                             <div class="col-md-4 mb-4">
                                 <div class="card">
-                                    <img t-att-src="'/web/image/mini_store.product/%s/image/300x300' % product.id" class="card-img-top" alt="Product Image"/>
+                                    <img t-att-src="'/web/image/mini_store.product/%s/image/300x300' % product.id" 
+                                         class="card-img-top" 
+                                         alt="Product Image"
+                                         t-att-alt="product.name"/>
                                     <div class="card-body">
                                         <h5 class="card-title"><t t-out="product.name"/></h5>
                                         <p class="card-text">Price: <t t-out="product.product_price"/> $</p>
@@ -25,6 +64,8 @@
                 </div>
             </t>
         </template>
+
+
 
         <!-- Product Detail Template -->
         <template id="product_detail_template" name="Product Detail">
@@ -180,8 +221,11 @@
         </template>
 
         <!-- Menu Items -->
+
         <menuitem id="menu_shop" name="Store" parent="website.main_menu" sequence="10"/>
-        <menuitem id="menu_shop_products" name="Products" parent="menu_shop" sequence="1" action="website.action_website"/>
-        <menuitem id="menu_shop_cart" name="Shopping cart" parent="menu_shop" sequence="2" action="website.action_website"/>
+        <menuitem id="menu_shop_categories" name="Categories" parent="menu_shop" sequence="1" action="website.action_website"/>
+        <menuitem id="menu_shop_products" name="Products" parent="menu_shop" sequence="2" action="website.action_website"/>
+        <menuitem id="menu_shop_cart" name="Shopping cart" parent="menu_shop" sequence="3" action="website.action_website"/>
+
     </data>
 </odoo>
