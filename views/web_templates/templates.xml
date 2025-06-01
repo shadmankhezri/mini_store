@@ -29,7 +29,8 @@
                                             <img t-att-src="'/web/image/mini_store.category/%s/image/300x300' % category.id" 
                                                  class="card-img-top" 
                                                  alt="Category Image"
-                                                 t-att-alt="category.cat_name"/>
+                                                 t-att-alt="category.cat_name"
+                                                 loading="lazy"/>
                                         </a>
                                         <div class="card-body">
                                             <h5 class="card-title">
@@ -93,7 +94,9 @@
                             <t t-foreach="products" t-as="product">
                                 <div class="col-md-4 mb-4">
                                     <div class="card">
-                                        <img t-att-src="'/web/image/mini_store.product/%s/image/300x300' % product.id" class="card-img-top" alt="Product Image"/>
+                                        <img t-att-src="'/web/image/mini_store.product/%s/image/300x300' % product.id" class="card-img-top"
+                                        alt="Product Image"
+                                        loading="lazy"/>
                                         <div class="card-body">
                                             <h5 class="card-title"><t t-out="product.name"/></h5>
                                             <p class="card-text">Price: <t t-out="product.product_price"/> $</p>
@@ -127,11 +130,17 @@
                     <h1><t t-out="product.name"/></h1>
                     <div class="row">
                         <div class="col-md-6">
-                            <img t-att-src="'/web/image/mini_store.product/%s/image/500x500' % product.id" class="img-fluid" alt="Product Image"/>
+                            <img t-att-src="'/web/image/mini_store.product/%s/image/500x500' % product.id" 
+                            class="img-fluid" 
+                            alt="Product Image"
+                            loading="lazy"/>
                             <div class="mt-3">
                                 <h5>Additional images:</h5>
                                 <t t-foreach="product.image_ids" t-as="img">
-                                    <img t-att-src="'/web/image/mini_store.product.image/%s/image/100x100' % img.id" class="img-thumbnail m-2" style="width: 100px;" alt="Additional Image"/>
+                                    <img t-att-src="'/web/image/mini_store.product.image/%s/image/100x100' % img.id" class="img-thumbnail m-2" 
+                                    style="width: 100px;" 
+                                    alt="Additional Image"
+                                    loading="lazy"/>
                                 </t>
                             </div>
                         </div>
@@ -225,17 +234,58 @@
             <t t-call="website.layout">
                 <t t-cache="cache_key">
                     <div class="container my-5">
-                        <h1>Store Products</h1>
+                        <h1>
+                            <t t-if="category">Products in <t t-out="category.cat_name"/></t>
+                            <t t-else="">Store Products</t>
+                        </h1>
+                        <!-- search box -->
+                        <form method="get" action="/shop/products" class="mb-4">
+                            <div class="form-row align-items-center">
+                                <div class="col-sm-4 my-1">
+                                    <input type="text" class="form-control" name="search" placeholder="Product search..." t-att-value="request.params.get('search', '')"/>
+                                </div>
+                                <div class="col-sm-4 my-1">
+                                    <select name="category_id" class="form-control">
+                                        <option value="">All Categories </option>
+                                        <t t-foreach="categories" t-as="category">
+                                            <option t-att-value="category.id"
+                                                    t-att-selected="category.id == int(request.params.get('category_id') or 0)">
+                                                <t t-out="category.cat_name"/>
+                                            </option>
+                                        </t>
+                                    </select>
+                                </div>
+                                <div class="col-auto my-1">
+                                    <button type="submit" class="btn btn-primary">Search</button>
+                                </div>
+                            </div>
+                        </form>
+
+                        <!-- show products -->
                         <div class="row">
-                            <t t-foreach="products" t-as="product">
-                                <div class="col-md-4 mb-4">
-                                    <div class="card">
-                                        <img t-att-src="'/web/image/mini_store.product/%s/image/300x300' % product.id" class="card-img-top" alt="Product Image"/>
-                                        <div class="card-body">
-                                            <h5 class="card-title"><t t-out="product.name"/></h5>
-                                            <p class="card-text">Price: <t t-out="product.product_price"/> $</p>
-                                            <p t-if="product.low_stock" class="text-danger">Low Stock!</p>
+                            <t t-if="products">
+                                <t t-foreach="products" t-as="product">
+                                    <div class="col-md-4 mb-4">
+                                        <div class="card">
+                                            <img t-att-src="'/web/image/mini_store.product/%s/image/300x300' % product.id" class="card-img-top" 
+                                            alt="Product Image"
+                                            loading="lazy"/>
+                                            <div class="card-body">
+                                                <h5 class="card-title"><t t-out="product.name"/></h5>
+                                                <p class="card-text">Price: <t t-out="product.product_price"/> $</p>
+                                                <p t-if="product.low_stock" class="text-danger">Low stock!</p>
+                                                <p>Stock: <t t-out="product.stock_quantity"/></p>
+                                                <a t-att-href="'/shop/product/%s' % product.id" class="btn btn-primary">View details</a>
+                                            </div>
                                         </div>
+                                    </div>
+                                </t>
+                            </t>
+                            <t t-else="">
+                                <!-- No Products Found Message -->
+                                <div class="col-12">
+                                    <div class="alert alert-warning" role="alert">
+                                        No products found.
                                     </div>
                                 </div>
                             </t>
@@ -245,17 +295,79 @@
             </t>
         </template>
 
+
+
+        <!-- Cached Category List Template -->
+        <template id="category_list_template" name="Category List">
+            <t t-call="website.layout">
+                <t t-cache="cache_key">
+                    <div class="container my-5">
+                        <h1>Mini Shop</h1>
+                        <h3>Store Categories</h3>
+
+                        <!-- Search Form -->
+                        <form method="get" action="/shop/categories" 
+                              class="form-inline mb-4">
+                            <div class="form-group mr-2">
+                                <input type="text" name="search" placeholder="Search by category name" 
+                                       class="form-control" 
+                                       t-att-value="request.params.get('search', '')"/>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Search</button>
+                        </form>
+
+                        <!-- Category Grid -->
+                        <div class="row">
+                            <t t-if="categories">
+                                <t t-foreach="categories" t-as="category">
+                                    <div class="col-md-4 mb-4">
+                                        <div class="card">
+                                            <a t-att-href="'/shop/category/%s' % category.id">
+                                                <img t-att-src="'/web/image/mini_store.category/%s/image/300x300' % category.id" 
+                                                    class="card-img-top" 
+                                                    alt="Category Image"
+                                                    t-att-alt="category.cat_name"
+                                                    loading="lazy"/>
+                                            </a>
+                                            <div class="card-body">
+                                                <h5 class="card-title">
+                                                    <a t-att-href="'/shop/category/%s' % category.id">
+                                                        <t t-out="category.cat_name"/>
+                                                    </a>
+                                                </h5>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </t>
+                            </t>
+                            <t t-else="">
+                                <!-- No Categories Found -->
+                                <div class="col-12">
+                                    <div class="alert alert-warning" role="alert">
+                                        No categories found.
+                                    </div>
+                                </div>
+                            </t>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </template>
+
+
+
         <!-- Cart Template -->
         <template id="cart_template" name="Cart">
             <t t-call="website.layout">
                 <div class="container my-5">
-                    <h1>Shopping cart</h1>
+                    <h1>Shopping Cart</h1>
                     <table class="table">
                         <thead>
                             <tr>
                                 <th>Product</th>
                                 <th>Quantity</th>
                                 <th>Price</th>
+                                <th>Actions</th> 
                             </tr>
                         </thead>
                         <tbody>
@@ -264,14 +376,24 @@
                                     <td><t t-out="item.product_id.name"/></td>
                                     <td><t t-out="item.quantity"/></td>
                                     <td><t t-out="item.total_price"/></td>
+                                    <td>
+                                        <form action="/shop/update_cart" method="post" style="display: inline-block;">
+                                            <input type="hidden" name="cart_line_id" t-att-value="item.id"/>
+                                            <input type="number" name="quantity" t-att-value="item.quantity" min="1" class="form-control form-control-sm d-inline-block" style="width: 60px;"/>
+                                            <button type="submit" class="btn btn-sm btn-primary ml-2">Update</button>
+                                        </form>
+                                        <a t-att-href="'/shop/remove_from_cart/%s' % item.id" class="btn btn-sm btn-danger ml-1">Remove</a>
+                                    </td>
                                 </tr>
                             </t>
                         </tbody>
                     </table>
-                    <a href="/shop/checkout" class="btn btn-primary">Finalize the purchase</a>
+                    <a href="/shop/checkout" class="btn btn-primary">Finalize the Purchase</a>
                 </div>
             </t>
         </template>
+
+
 
         <!-- Menu Items -->
 

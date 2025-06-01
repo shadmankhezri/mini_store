@@ -4,7 +4,7 @@
             <div class="container my-5">
                 <h1 class="text-danger">پرداخت ناموفق بود</h1>
                 <p><t t-esc="error"/></p>
-                <a href="/" class="btn btn-secondary mt-3">بازگشت به صفحه اصلی</a>
+                <a href="/shop/categories" class="btn btn-secondary mt-3">بازگشت به صفحه اصلی</a>
             </div>
         </t>
     </template>

@@ -4,7 +4,8 @@ from odoo.http import request
 
 class ShopController(http.Controller):
 
-#----------------------
+#---------------------------------------------------------------------------------------
+
 # Controller for category list
     @http.route(['/shop/categories'], type='http', auth='public', website=True)
     def category_list(self, **kwargs):
@@ -18,7 +19,8 @@ class ShopController(http.Controller):
             'categories': categories,
         })
 
-#----------------------
+#---------------------------------------------------------------------------------------
+
 # controller for product list
     @http.route('/shop/products', type='http', auth='public', website=True)
     def product_list(self, search=None, category_id=None, **kwargs):
@@ -33,7 +35,8 @@ class ShopController(http.Controller):
             'products': products,
             'categories': categories
         })
-#----------------------
+#---------------------------------------------------------------------------------------
+
 # controller for product detail
     @http.route('/shop/product/<int:product_id>', type='http', auth='public', website=True)
     def product_detail(self, product_id, **kwargs):
@@ -42,7 +45,8 @@ class ShopController(http.Controller):
             return request.render('mini_store.payment_failed', {'error': 'Product not found'})
         return request.render('mini_store.product_detail_template', {'product': product})
     
-#----------------------
+#---------------------------------------------------------------------------------------
+
 # Controller for category products
     @http.route('/shop/category/<int:category_id>', type='http', auth='public', website=True)
     def category_products(self, category_id, **kwargs):
@@ -56,7 +60,8 @@ class ShopController(http.Controller):
         })
 
 
-#----------------------
+#---------------------------------------------------------------------------------------
+
 # controller for submit_order
     @http.route('/shop/submit_order', type='http', auth='public', website=True, methods=['POST'])
     def submit_order(self, **post):
@@ -77,7 +82,8 @@ class ShopController(http.Controller):
         })
         return request.redirect(f'/payment/verify/{order.id}')
     
-#----------------------
+#---------------------------------------------------------------------------------------
+
 # controller for invoice_detail
     @http.route('/shop/invoice/<int:invoice_id>', type='http', auth='public', website=True)
     def invoice_detail(self, invoice_id, **kwargs):
@@ -86,7 +92,8 @@ class ShopController(http.Controller):
             return request.render('mini_store.payment_failed', {'error': 'Invoice not found'})
         return request.render('mini_store.invoice_template', {'invoice': invoice})
     
-#----------------------
+#---------------------------------------------------------------------------------------
+
 # controller for product_list_cached
     @http.route('/shop/products/cached', type='http', auth='public', website=True)
     def product_list_cached(self, **kwargs):
@@ -94,7 +101,18 @@ class ShopController(http.Controller):
         cache_key = f"product_list_{hash(str([p.write_date for p in products]))}"
         return request.render('mini_store.product_list_cached', {'products': products, 'cache_key': cache_key})
     
-#----------------------
+
+#---------------------------------------------------------------------------------------
+
+# controller for category_list_cached
+    @http.route('/shop/categories/cached', type='http', auth='public', website=True)
+    def category_list_cached(self, **kwargs):
+        categories = request.env['mini_store.category'].search([])
+        cache_key = f"category_list_{hash(str([c.write_date for c in categories]))}"
+        return request.render('mini_store.category_list_cached', {'categories': categories, 'cache_key': cache_key})
+
+#---------------------------------------------------------------------------------------
+
 # controller for cart
     @http.route('/shop/cart', type='http', auth='public', website=True)
     def cart(self, **kwargs):
@@ -102,6 +120,8 @@ class ShopController(http.Controller):
         if not cart:
             cart = request.env['mini_store.cart'].sudo().create({'customer_id': request.env.user.partner_id.id})
         return request.render('mini_store.cart_template', {'cart_items': cart.cart_line_ids})
+
+#---------------------------------------------------------------------------------------
 
 # controller for add to cart
     @http.route('/shop/add_to_cart', type='http', auth='public', website=True, methods=['POST'])
@@ -129,4 +149,19 @@ class ShopController(http.Controller):
 
         return request.redirect('/shop/cart')
     
-#----------------------
+    # update cart
+    @http.route('/shop/update_cart', type='http', auth='public', website=True, methods=['POST'])
+    def update_cart(self, cart_line_id, quantity, **post):
+        cart_line = request.env['mini_store.cart_line'].sudo().browse(int(cart_line_id))
+        if cart_line:
+            cart_line.quantity = int(quantity)
+        return request.redirect('/shop/cart')
+    
+    # remove from cart
+    @http.route('/shop/remove_from_cart/<int:cart_line_id>', type='http', auth='public', website=True)
+    def remove_from_cart(self, cart_line_id, **kwargs):
+        cart_line = request.env['mini_store.cart_line'].sudo().browse(cart_line_id)
+        if cart_line:
+            cart_line.unlink()
+        return request.redirect('/shop/cart')
+#---------------------------------------------------------------------------------------
