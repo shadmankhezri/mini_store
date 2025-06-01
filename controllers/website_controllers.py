@@ -6,18 +6,33 @@ class ShopController(http.Controller):
 
 #----------------------
 # Controller for category list
-    @http.route('/shop/categories', type='http', auth='public', website=True)
+    @http.route(['/shop/categories'], type='http', auth='public', website=True)
     def category_list(self, **kwargs):
-        categories = request.env['mini_store.category'].search([])
-        return request.render('mini_store.category_list_template', {'categories': categories})
+        search = kwargs.get('search', '')
+        domain = []
+        if search:
+            domain.append(('cat_name', 'ilike', search))
+
+        categories = request.env['mini_store.category'].search(domain)
+        return request.render('mini_store.category_list_template', {
+            'categories': categories,
+        })
 
 #----------------------
 # controller for product list
     @http.route('/shop/products', type='http', auth='public', website=True)
-    def product_list(self, **kwargs):
-        products = request.env['mini_store.product'].search([])
-        return request.render('mini_store.product_list_template', {'products': products})
-    
+    def product_list(self, search=None, category_id=None, **kwargs):
+        domain = []
+        if search:
+            domain += [('name', 'ilike', search)]
+        if category_id:
+            domain += [('category_id', '=', int(category_id))]
+        products = request.env['mini_store.product'].search(domain)
+        categories = request.env['mini_store.category'].search([])
+        return request.render('mini_store.product_list_template', {
+            'products': products,
+            'categories': categories
+        })
 #----------------------
 # controller for product detail
     @http.route('/shop/product/<int:product_id>', type='http', auth='public', website=True)
