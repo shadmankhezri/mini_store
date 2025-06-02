@@ -13,7 +13,7 @@
         'views/category_views.xml',
         'views/customer_views.xml',
         'views/sale_order_views.xml',
-        'views/report_invoice.xml',
+        'report/report_invoice.xml',
         'views/invoice_views.xml',
         'views/web_templates/payment_success.xml',
         'views/web_templates/payment_failed.xml',
