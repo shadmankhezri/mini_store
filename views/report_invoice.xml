@@ -1,0 +1,46 @@
+<odoo>
+    <!-- QWeb PDF Report Action -->
+    <report
+        id="action_report_invoice_pdf"
+        model="mini_store.invoice"
+        string="Invoice"
+        name="mini_store.report_invoice_pdf_template"
+        report_type="qweb-pdf"
+        file="mini_store.report_invoice_pdf_template"
+        print_report_name="'Invoice - %s' % (object.name)"
+    />
+
+    <!-- QWeb Template -->
+    <template id="report_invoice_pdf_template">
+        <t t-call="web.external_layout">
+            <div class="page">
+                <h2>Invoice: <t t-esc="doc.name"/></h2>
+                <p>Customer: <t t-esc="doc.customer_id.name"/></p>
+                <p>Date: <t t-esc="doc.order_date"/></p>
+                <p>Status: <t t-esc="doc.state"/></p>
+                <p>Total Price: <t t-esc="doc.total_price"/></p>
+                <h4>Order Lines</h4>
+                <table class="table table-sm o_main_table">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Quantity</th>
+                            <th>Unit Price</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="doc.order_line_ids" t-as="line">
+                            <tr>
+                                <td><t t-esc="line.product_id.name"/></td>
+                                <td><t t-esc="line.quantity"/></td>
+                                <td><t t-esc="line.price_unit"/></td>
+                                <td><t t-esc="line.total_price"/></td>
+                            </tr>
+                        </t>
+                    </tbody>
+                </table>
+            </div>
+        </t>
+    </template>
+</odoo>

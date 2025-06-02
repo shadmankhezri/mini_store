@@ -70,7 +70,7 @@
 
 
 
-    <!-- tree views for all users -->
+    <!-- tree views -->
     <record id="mini_store_product_tree_view" model="ir.ui.view">
         <field name="name">mini_store.product.tree</field>
         <field name="model">mini_store.product</field>
@@ -154,6 +154,14 @@
     </record>
 
 
+    <record id="action_low_stock_products" model="ir.actions.act_window">
+        <field name="name">Low Stock Products</field>
+        <field name="res_model">mini_store.product</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="domain">[('low_stock', '=', True)]</field>
+        <field name="search_view_id" ref="mini_store_product_search_view"/>
+    </record>
+    
 </odoo>
 
 

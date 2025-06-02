@@ -63,6 +63,7 @@
         </field>
     </record>
 
+
     <!-- Action -->
     <record id="action_sale_order" model="ir.actions.act_window">
         <field name="name">Sale Orders</field>
@@ -70,12 +71,16 @@
         <field name="view_mode">tree,form</field>
     </record>
 
+
+
+
     <!-- Menu -->
     <menuitem id="menu_sale_order"
               name="Sale Orders"
               parent="menu_mini_store_root"
               action="action_sale_order"
               sequence="40"/>
+
 </odoo>
 
 

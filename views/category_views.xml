@@ -109,5 +109,11 @@
               action="action_mini_store_product"
               sequence="2"/>
 
+    <!-- submenu: low stock products -->
+    <menuitem id="menu_low_stock_products" 
+              name="Low Stock Products" 
+              parent="menu_mini_store_category" 
+              action="action_low_stock_products" 
+              sequence="3"/>
 
 </odoo>

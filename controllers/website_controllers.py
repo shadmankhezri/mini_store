@@ -2,10 +2,10 @@
 from odoo import http
 from odoo.http import request
 
+
 class ShopController(http.Controller):
 
 #---------------------------------------------------------------------------------------
-
 # Controller for category list
     @http.route(['/shop/categories'], type='http', auth='public', website=True)
     def category_list(self, **kwargs):
