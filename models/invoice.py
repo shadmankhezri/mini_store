@@ -29,3 +29,5 @@ class Invoice(models.Model):
                 raise UserError("This invoice is already paid.")
             invoice.state = 'paid'
 
+    def action_print_invoice(self):
+        return self.env.ref('mini_store.action_report_invoice_pdf').report_action(self)

@@ -1,16 +1,5 @@
 
 <odoo>
-    <!-- QWeb PDF Report Action -->
-
-    <report
-        id="action_report_invoice_pdf"
-        model="mini_store.invoice"
-        string="Invoice"
-        name="mini_store.report_invoice_pdf_template"
-        report_type="qweb-pdf"
-        file="mini_store.report_invoice_pdf_template"
-        print_report_name="'Invoice - %s' % (object.name)"
-    />
 
     <!-- QWeb Template -->
     <template id="report_invoice_pdf_template">
@@ -33,7 +22,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <t t-foreach="doc.order_line_ids" t-as="line">
+                            <t t-foreach="doc.sale_order_id.order_line_ids" t-as="line">
                                 <tr>
                                     <td><t t-esc="line.product_id.name or 'بدون نام'"/></td>
                                     <td><t t-esc="line.quantity"/></td>

@@ -7,13 +7,14 @@
     'data': [
         
         'security/ir.model.access.csv',
+        'report/report_action.xml',
+        'report/report_invoice.xml',
     
         'views/menu.xml',
         'views/product_views.xml',
         'views/category_views.xml',
         'views/customer_views.xml',
         'views/sale_order_views.xml',
-        'report/report_invoice.xml',
         'views/invoice_views.xml',
         'views/web_templates/payment_success.xml',
         'views/web_templates/payment_failed.xml',

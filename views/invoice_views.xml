@@ -22,13 +22,12 @@
             <form string="Invoice">
                 <header>
 
-                    <button name="%(mini_store.action_report_invoice_pdf)d"             string="Print Invoice" type="action" class="btn-secondary" icon="fa-print"/>
-
-                    <!-- <button name="action_report_invoice_pdf"
+                    <button name="action_print_invoice"
                             string="Print Invoice"
-                            type="action"
-                            class="btn-secondary"
-                            icon="fa-print"/> -->
+                            type="object"
+                            class="btn-primary"/>
+
+     
                 </header>
                 <sheet>
                     <group>
