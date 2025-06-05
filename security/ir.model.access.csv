@@ -14,3 +14,4 @@ access_mini_store_product_image,access.mini.store.product.image,model_mini_store
 
 
 access_mini_store_cart,access.mini.store.cart,model_mini_store_cart,,1,1,1,1
+access_mini_store_cart_line,access.mini.store.cart_line,model_mini_store_cart_line,,1,1,1,1

@@ -6,7 +6,7 @@ from datetime import datetime, timedelta
 class SaleOrder(models.Model):
     _name = 'mini_store.sale_order'
     _description = 'Sale Order'
-    # _inherit = 'mini_store.sale_order'
+
 
     name = fields.Char(string='Order Reference', required=True, copy=False, readonly=True, default='New')
     customer_id = fields.Many2one('mini_store.customer', string='Customer', required=True)

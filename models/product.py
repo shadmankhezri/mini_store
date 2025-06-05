@@ -23,12 +23,12 @@ class Product(models.Model):
     def _compute_low_stock(self):
         for product in self:
             product.low_stock = product.stock_quantity <= 5
-            if product.low_stock:
-                self.env['mail.mail'].create({
-                    'subject': f'Low Stock Alert: {product.name}',
-                    'email_to': 'admin@example.com',
-                    'body_html': f'Product {product.name} has low stock: {product.stock_quantity}',
-                }).send()
+            # if product.low_stock:
+            #     self.env['mail.mail'].create({
+            #         'subject': f'Low Stock Alert: {product.name}',
+            #         'email_to': 'admin@example.com',
+            #         'body_html': f'Product {product.name} has low stock: {product.stock_quantity}',
+            #     }).send()
 
     
 class ProductImage(models.Model):

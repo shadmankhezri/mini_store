@@ -18,7 +18,7 @@
                             <tr>
                                 <td><t t-out="line.product_id.name"/></td>
                                 <td><t t-out="line.quantity"/></td>
-                                <td><t t-out="line.price_subtotal"/></td>
+                                <td><t t-out="line.total_price"/></td>
                             </tr>
                         </t>
                     </tbody>
