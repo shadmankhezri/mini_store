@@ -23,41 +23,45 @@
     <!-- QWeb template definition -->
     <template id="report_invoice_pdf_template">
     <!-- احتمالا اینجا نیاز داریم که یه فور اضافه کنیم -->
+    <t t-foreach="docs" t-as="doc">
         <t t-call="web.external_layout">
-            <div class="page">
-                <h2>فاکتور: <t t-esc="doc.name"/></h2>
-                <p>مشتری: <t t-esc="doc.customer_id.name or 'بدون مشتری'"/></p>
-                <p>تاریخ: <t t-esc="doc.order_date.strftime('%Y-%m-%d %H:%M:%S') if doc.order_date else 'بدون تاریخ'"/></p>
-                <p>وضعیت: <t t-esc="'پرداخت‌شده' if doc.state == 'paid' else 'پیش‌نویس'"/></p>
-                <p>مبلغ کل: <t t-esc="'%.2f' % doc.total_price"/> تومان</p>
-                <h4>اقلام سفارش</h4>
-                <t t-if="doc.order_line_ids">
-                    <table class="table table-sm o_main_table">
-                        <thead>
-                            <tr>
-                                <th>محصول</th>
-                                <th>تعداد</th>
-                                <th>قیمت واحد</th>
-                                <th>جمع</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <t t-foreach="doc.order_line_ids" t-as="line">
+            <main>
+                <div class="page">
+                    <h2>فاکتور: <t t-esc="doc.name"/></h2>
+                    <p>مشتری: <t t-esc="doc.customer_id.name or 'بدون مشتری'"/></p>
+                    <p>تاریخ: <t t-esc="doc.order_date.strftime('%Y-%m-%d %H:%M:%S') if doc.order_date else 'بدون تاریخ'"/></p>
+                    <p>وضعیت: <t t-esc="'پرداخت‌شده' if doc.state == 'paid' else 'پیش‌نویس'"/></p>
+                    <p>مبلغ کل: <t t-esc="'%.2f' % doc.total_price"/> تومان</p>
+                    <h4>اقلام سفارش</h4>
+                    <t t-if="doc.order_line_ids">
+                        <table class="table table-sm o_main_table">
+                            <thead>
                                 <tr>
-                                    <td><t t-esc="line.product_id.name or 'بدون نام'"/></td>
-                                    <td><t t-esc="line.quantity"/></td>
-                                    <td><t t-esc="'%.2f' % line.price_unit"/></td>
-                                    <td><t t-esc="'%.2f' % line.total_price"/></td>
+                                    <th>محصول</th>
+                                    <th>تعداد</th>
+                                    <th>قیمت واحد</th>
+                                    <th>جمع</th>
                                 </tr>
-                            </t>
-                        </tbody>
-                    </table>
-                </t>
-                <t t-else="">
-                    <p class="text-muted">هیچ اقلام سفارشی یافت نشد.</p>
-                </t>
-            </div>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="doc.order_line_ids" t-as="line">
+                                    <tr>
+                                        <td><t t-esc="line.product_id.name or 'بدون نام'"/></td>
+                                        <td><t t-esc="line.quantity"/></td>
+                                        <td><t t-esc="'%.2f' % line.price_unit"/></td>
+                                        <td><t t-esc="'%.2f' % line.total_price"/></td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </t>
+                    <t t-else="">
+                        <p class="text-muted">هیچ اقلام سفارشی یافت نشد.</p>
+                    </t>
+                </div>
+            </main>
         </t>
+    </t>
     </template>
 </odoo>
 
