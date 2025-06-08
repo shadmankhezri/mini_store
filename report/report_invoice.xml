@@ -1,15 +1,4 @@
 <odoo>
-    <!-- Report Action Definition -->
-    <!-- <report
-        id="action_report_invoice_pdf"
-        model="mini_store.invoice"
-        string="Invoice"
-        name="mini_store.report_invoice_pdf_template"
-        report_type="qweb-pdf"
-        file="mini_store.report_invoice_pdf_template"
-        print_report_name="'Invoice - %s' % (object.name)"
-    /> -->
-
     <record id="action_report_invoice_pdf" model="ir.actions.report">
         <field name="name">Invoice Store</field>
         <field name="model">mini_store.invoice</field>
@@ -22,7 +11,6 @@
 
     <!-- QWeb template definition -->
     <template id="report_invoice_pdf_template">
-    <!-- احتمالا اینجا نیاز داریم که یه فور اضافه کنیم -->
     <t t-foreach="docs" t-as="doc">
         <t t-call="web.external_layout">
             <main>
@@ -30,8 +18,19 @@
                     <h2>فاکتور: <t t-esc="doc.name"/></h2>
                     <p>مشتری: <t t-esc="doc.customer_id.name or 'بدون مشتری'"/></p>
                     <p>تاریخ: <t t-esc="doc.order_date.strftime('%Y-%m-%d %H:%M:%S') if doc.order_date else 'بدون تاریخ'"/></p>
-                    <p>وضعیت: <t t-esc="'پرداخت‌شده' if doc.state == 'paid' else 'پیش‌نویس'"/></p>
-                    <p>مبلغ کل: <t t-esc="'%.2f' % doc.total_price"/> تومان</p>
+
+                    <p>ایمیل: <t t-esc="doc.customer_id.email or 'نامشخص'"/></p>
+                    <p>تلفن: <t t-esc="doc.customer_id.phone or doc.customer_id.mobile or 'نامشخص'"/></p>
+                    <p>آدرس: 
+                        <t t-esc="doc.customer_id.street or ''"/>,
+                        <t t-esc="doc.customer_id.city or ''"/>,
+                        <t t-esc="doc.customer_id.zip or ''"/>,
+                        <t t-esc="doc.customer_id.country_id.name or ''"/>
+                    </p>
+
+
+                    <p>وضعیت: <t t-esc="'پرداخت‌ شده' if doc.state == 'paid' else 'پیش‌نویس'"/></p>
+                    <p>مبلغ کل: <t t-esc="'%.2f' % doc.total_price"/>    تومان</p>
                     <h4>اقلام سفارش</h4>
                     <t t-if="doc.order_line_ids">
                         <table class="table table-sm o_main_table">
