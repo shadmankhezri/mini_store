@@ -6,7 +6,7 @@ class Invoice(models.Model):
     _description = 'Invoice'
 
     name = fields.Char(string='Invoice Number', required=True, copy=False, readonly=True,
-                       default=lambda self: self.env['ir.sequence'].next_by_code('mini_store.invoice'))
+    default=lambda self: self.env['ir.sequence'].next_by_code('mini_store.invoice'))
     
     sale_order_id = fields.Many2one('mini_store.sale_order', string='Sale Order', required=True)
     customer_id = fields.Many2one(related='sale_order_id.customer_id', string='Customer', store=True)
